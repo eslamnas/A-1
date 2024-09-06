@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان A1 الإلكتروني</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .question {
+            background-color: #ecf0f1;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .question:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .question h3 {
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        label:hover {
+            background-color: #e0e0e0;
+        }
+        .correct {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .incorrect {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>امتحان A1 الإلكتروني - الفصول الأولى</h1>
+        <div class="question">
+            <h3>1. ما هو السؤال الصحيح للسؤال عن الاسم؟</h3>
+            <label><input type="radio" name="q1" value="correct"> What is your name?</label>
+            <label><input type="radio" name="q1" value="wrong"> Where are you from?</label>
+            <label><input type="radio" name="q1" value="wrong"> How are you?</label>
+            <div class="feedback" id="feedback1"></div>
+        </div>
+        <div class="question">
+            <h3>2. كيف تسأل عن شعور شخص ما؟</h3>
+            <label><input type="radio" name="q2" value="wrong"> What is your name?</label>
+            <label><input type="radio" name="q2" value="correct"> How are you?</label>
+            <label><input type="radio" name="q2" value="wrong"> Where are you from?</label>
+            <div class="feedback" id="feedback2"></div>
+        </div>
+        <div class="question">
+            <h3>3. ما هي الطريقة الصحيحة للسؤال عن الجنسية؟</h3>
+            <label><input type="radio" name="q3" value="correct"> What is your nationality?</label>
+            <label><input type="radio" name="q3" value="wrong"> How are you?</label>
+            <label><input type="radio" name="q3" value="wrong"> What is your name?</label>
+            <div class="feedback" id="feedback3"></div>
+        </div>
+        <div class="question">
+            <h3>4. ما هو السؤال الصحيح للسؤال عن مكان السكن؟</h3>
+            <label><input type="radio" name="q4" value="wrong"> What is your job?</label>
+            <label><input type="radio" name="q4" value="correct"> Where do you live?</label>
+            <label><input type="radio" name="q4" value="wrong"> How old are you?</label>
+            <div class="feedback" id="feedback4"></div>
+        </div>
+        <div class="question">
+            <h3>5. ما هي جنسيتك إذا كنت من مصر؟</h3>
+            <label><input type="radio" name="q5" value="wrong"> I am English.</label>
+            <label><input type="radio" name="q5" value="correct"> I am Egyptian.</label>
+            <label><input type="radio" name="q5" value="wrong"> I am French.</label>
+            <div class="feedback" id="feedback5"></div>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        let correctAnswers = 0;
+        const totalQuestions = 5;
+
+        function checkAnswer(questionNumber) {
+            const selectedAnswer = document.querySelector(`input[name="q${questionNumber}"]:checked`);
+            if (selectedAnswer) {
+                const feedbackElement = document.getElementById(`feedback${questionNumber}`);
+                const labels = document.querySelectorAll(`input[name="q${questionNumber}"] + label`);
+                
+                labels.forEach(label => {
+                    label.classList.remove('correct', 'incorrect');
+                });
+
+                if (selectedAnswer.value === 'correct') {
+                    correctAnswers++;
+                    feedbackElement.textContent = 'إجابة صحيحة!';
+                    selectedAnswer.parentElement.classList.add('correct');
+                } 
+
+                updateResult();
+            }
+        }
+
+        function updateResult() {
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `لقد أجبت على ${correctAnswers} من أصل ${totalQuestions} أسئلة بشكل صحيح.`;
+        }
+
+        // Add event listeners to all radio buttons
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', (event) => {
+                const questionNumber = event.target.name.charAt(1);
+                checkAnswer(questionNumber);
+            });
+        });
+    </script>
+</body>
+</html>
